@@ -11,7 +11,7 @@ env:
   
 jobs:
  check:
-  runs-on: ubuntu-latest
+  runs-on: ubuntu-22.04
   outputs:
     ver: ${{ steps.getversion.outputs.ver }}
     cver: ${{ steps.getversion.outputs.cver }}
