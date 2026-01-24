@@ -22,9 +22,11 @@
 
 ### Docker部署
 
-- cmd
+> 下述命令中的 `/你的宿主机文件目录` 是你宿主机里的目录，主要是用来保存在web页面添加的WireGuard客户端配置文件，防止重启或更新容器数据丢失导致添加过的WireGuard客户端失效
 
-  `docker run --name vnts -p 29872:29872 -p 29870:29870/tcp -e TZ=Asia/Shanghai --restart=always -d lmq8267/vnts -p 29872 -P 29870 -U WEB用户名 -W WEB密码`
+- cmd 
+
+  `docker run --name vnts -v /你的宿主机文件目录:/usr/bin/vnts_wg -p 29872:29872/tcp -p 29872:29872/udp -p 29870:29870/tcp -e TZ=Asia/Shanghai --restart=always -d lmq8267/vnts -p 29872 -P 29870 -U WEB用户名 -W WEB密码`
 
 - compose.yaml
 
@@ -37,7 +39,10 @@ services:
         restart: always
         ports:
             - '29870:29870/tcp'
-            - '29872:29872'
+            - '29872:29872/tcp'
+            - '29872:29872/udp'
+        volumes:
+            - '/你的宿主机文件目录:/usr/bin/vnts_wg'
         environment:
             - TZ=Asia/Shanghai
         command: '-p 29872 -P29870 -U WEB用户名 -W WEB密码'
